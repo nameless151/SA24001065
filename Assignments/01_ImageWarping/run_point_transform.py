@@ -73,10 +73,11 @@ def point_guided_deformation(image, source_pts, target_pts, alpha=100.0, eps=1e-
                     A0[k]=1./((i-source_pts[k,1])**2+(j-source_pts[k,0])**2+alpha)
                 result=np.array([0,0],dtype=int)
                 result=np.round(np.dot(A0,coef))
-                image_1[int(result[1]+i),int(result[0]+j)]=image[i,j]
+                if(int(result[1]+i)<warped_image.shape[0] and int(result[1]+i)>0 and int(result[0]+j)<warped_image.shape[1] and int(result[1]+i)>0):
+                    image_1[int(result[1]+i),int(result[0]+j)]=image[i,j]
         warped_image=image_1
-        for i in range(warped_image.shape[0]):
-            for j in range(warped_image.shape[1]):
+        for i in range(2,warped_image.shape[0]-2):
+            for j in range(2,warped_image.shape[1]-2):
                 if(warped_image[i,j,0]==255 and warped_image[i,j,1]==255 and warped_image[i,j,2]==255):
                     sum1=0.
                     sum2=np.array([0,0,0],dtype=float)

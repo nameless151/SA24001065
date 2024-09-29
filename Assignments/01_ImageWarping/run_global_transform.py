@@ -20,15 +20,15 @@ def apply_transform(image, scale, rotation, translation_x, translation_y, flip_h
 
     ### FILL: Apply Composition Transform 
     # Note: for scale and rotation, implement them around the center of the image （围绕图像中心进行放缩和旋转）
-    M_scale = np.array([[scale, 0, (1-scale)*(transformed_image.shape[1]//2)], [0, scale, (1-scale)*(transformed_image.shape[0]//2)]],dtype=np.float32)
-    transformed_image = cv2.warpAffine(transformed_image, M_scale, (transformed_image.shape[1], transformed_image.shape[0]))
+    
 
     if flip_horizontal:
         M_f=np.array([[-1,0,transformed_image.shape[1]],[0,1,0]],dtype=np.float32)
         transformed_image = cv2.warpAffine(transformed_image, M_f, (transformed_image.shape[1], transformed_image.shape[0]))
-    
+    '''
     Y,X=np.meshgrid(np.arange(transformed_image.shape[0]),np.arange(transformed_image.shape[1]),indexing="ij")
     z= np.column_stack((Y.ravel(), X.ravel()))
+    '''
     pi=np.pi
     theta=rotation/180.*pi
     cos_theta=np.cos(theta)
@@ -47,7 +47,7 @@ def apply_transform(image, scale, rotation, translation_x, translation_y, flip_h
     transformed_image=image_new2.reshape(transformed_image.shape[0],transformed_image.shape[1],3)
     '''
     
-    # M=np.array([[np.cos(theta),-np.sin(theta),translation_x+(1-np.cos(theta))*transformed_image.shape[1]//2+np.sin(theta)*transformed_image.shape[0]//2],[np.sin(theta),np.cos(theta),translation_y+(-np.sin(theta))*transformed_image.shape[1]//2+(1-np.cos(theta))*transformed_image.shape[0]//2]],dtype=np.float32)
+    M=np.array([[np.cos(theta),-np.sin(theta),translation_x+(1-np.cos(theta))*transformed_image.shape[1]//2+np.sin(theta)*transformed_image.shape[0]//2],[np.sin(theta),np.cos(theta),translation_y+(-np.sin(theta))*transformed_image.shape[1]//2+(1-np.cos(theta))*transformed_image.shape[0]//2]],dtype=np.float32)
     image_new2=np.zeros((image.shape[0], image.shape[1], 3), dtype=np.uint8) + np.array((255,255,255), dtype=np.uint8).reshape(1,1,3)
     for i in range(transformed_image.shape[1]):
         for j in range(transformed_image.shape[0]):
@@ -59,8 +59,12 @@ def apply_transform(image, scale, rotation, translation_x, translation_y, flip_h
             new_y=int(new_y)
             image_new2[new_y,new_x]=transformed_image[j,i]
     transformed_image=np.array(image_new2)
-    
-
+    '''
+    旋转和放大要对矩阵进行填充，效果不佳。
+    '''
+    transformed_image=cv2.warpAffine(image, M, (transformed_image.shape[1], transformed_image.shape[0]))
+    M_scale = np.array([[scale, 0, (1-scale)*(transformed_image.shape[1]//2)], [0, scale, (1-scale)*(transformed_image.shape[0]//2)]],dtype=np.float32)
+    transformed_image = cv2.warpAffine(transformed_image, M_scale, (transformed_image.shape[1], transformed_image.shape[0]))
     return transformed_image
 
 # Gradio Interface
