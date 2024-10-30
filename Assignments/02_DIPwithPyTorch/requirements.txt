@@ -1,0 +1,4 @@
+opencv-python
+numpy
+gradio==3.36.1
+conda install pytorch torchvision torchaudio pytorch-cuda=12.4 -c pytorch -c nvidia
