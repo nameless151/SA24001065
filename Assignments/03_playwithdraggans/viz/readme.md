@@ -1,1 +1,3 @@
+将draggan中对应viz目录下的函数进行替换即可
 
+使用dlib前需要到该网站下载模型http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2
