@@ -15,6 +15,11 @@ pip install dlib
 
 安装draggan请参考/draggan/readme.md
 
+将draggan中对应viz目录下的函数进行替换即可
+
+使用dlib前需要到该网站下载模型http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2
+
+
 ## 实验原理
 
 1. GAN实现pix2pix，相比上次的FCN网络多了一个判别器，主要目的是将生成图片和语义图片或者真值图片进行组合与真值图片进行对比给出误差。并且在l1误差的基础上加上gan误差项。
