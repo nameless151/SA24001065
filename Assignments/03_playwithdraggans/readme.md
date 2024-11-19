@@ -19,6 +19,7 @@ pip install dlib
 
 使用dlib前需要到该网站下载模型http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2
 
+演示视频直接下载演示视频.MP4观看，无法直接在md文件中加载
 
 ## 实验原理
 
